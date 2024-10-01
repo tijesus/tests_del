@@ -67,4 +67,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
+dependensires added to the normal react dom and router dom are:
+npm install react-quill and npm install react-quill highlight.js
+and npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
