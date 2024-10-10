@@ -76,7 +76,7 @@ const Blog = ({ user }) => {
             </div>
           ))
         ) : (
-          <p>No posts found for your search.</p>
+          <p className='no-post'>No posts found for your search.</p>
         )}
       </div>
     </div>

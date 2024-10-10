@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link for navigation to Forgot Password
 import './Login.css'; // Assuming you have your CSS for styling
 
 const Login = ({ onLogin }) => {
@@ -58,6 +58,13 @@ const Login = ({ onLogin }) => {
         </div>
         <button type="submit" className="login-button">Login</button>
       </form>
+
+      {/* Forgot Password section */}
+      <div className="forgot-password-section">
+        <p>Forgot your password? 
+          <Link to="/forgot-password" className="forgot-password-link"> Click here</Link>
+        </p>
+      </div>
     </div>
   );
 };

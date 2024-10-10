@@ -10,6 +10,8 @@ import Contact from './components/Contact/Contact';
 import SignUp from './components/Signup/Signup';
 import Login from './components/Login/Login';
 import PostDetail from './components/Post/PostDetail'; // To view individual posts
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,6 +37,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
         </Routes>
         <Footer />
       </div>

@@ -56,7 +56,7 @@ const PostDetail = () => {
         {/* Post Content */}
         <p>{post.content}</p>
   
-
+ 
         {/* Post Metadata */}
         <div className="metadata">
           <span>Published: {post.published_date}</span>

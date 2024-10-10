@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Quill theme
 import 'highlight.js/styles/monokai.css'; // Code syntax highlighting theme
 import hljs from 'highlight.js'; // Highlight.js for syntax highlighting
+import axios from 'axios';
 import './CreatePost.css'; // Custom CSS
 
 // Initialize Highlight.js for Quill
@@ -30,7 +31,7 @@ const modules = {
         'data-tooltip': item.charAt(0).toUpperCase() + item.slice(1).replace('-', ' '),
       })),
       [{ 'list': 'ordered', 'data-tooltip': 'Ordered List' }, { 'list': 'bullet', 'data-tooltip': 'Bullet List' }],
-      ['link', 'image', 'video'].map((item) => ({
+      ['link', 'image'].map((item) => ({
         [item]: true,
         'data-tooltip': item.charAt(0).toUpperCase() + item.slice(1),
       })),
@@ -48,12 +49,63 @@ const modules = {
 const formats = [
   'header', 'font', 'align', 'bold', 'italic', 'underline', 'strike',
   'color', 'background', 'blockquote', 'code-block', 'list', 'bullet',
-  'link', 'image', 'video',
+  'link', 'image',
 ];
 
 const CreatePost = ({ user }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [error, setError] = useState('');
+  const quillRef = useRef(null); // Ref for ReactQuill
+
+  // Image upload handler with 5MB limit
+  const imageHandler = useCallback(async () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files?.[0];
+
+      // Check if file exists and is below 5MB
+      if (file && file.size <= 5 * 1024 * 1024) { // 5MB size limit
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+
+          // Send the image to the server
+          const response = await axios.post('http://your-api-url/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+          const imageUrl = response.data.fileUrl; // Get URL from response
+
+          // Insert image into the editor
+          const quill = quillRef.current?.getEditor();
+          const range = quill?.getSelection();
+          if (range) {
+            quill?.insertEmbed(range.index, 'image', imageUrl);
+          }
+        } catch (error) {
+          console.error('Image upload failed:', error);
+          setError('Failed to upload image.');
+        }
+      } else {
+        setError('Image size exceeds 5MB.');
+      }
+    };
+  }, []);
+
+  // Set the custom image handler in Quill after mount
+  useEffect(() => {
+    const quill = quillRef.current?.getEditor();
+    if (quill) {
+      quill.getModule('toolbar').addHandler('image', imageHandler);
+    }
+  }, [imageHandler]);
 
   // Form submission logic
   const handleSubmit = (e) => {
@@ -89,6 +141,7 @@ const CreatePost = ({ user }) => {
   return (
     <div className="create-post-page">
       <h1>Create a New Post</h1>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -98,6 +151,7 @@ const CreatePost = ({ user }) => {
           required
         />
         <ReactQuill
+          ref={quillRef}
           value={content}
           onChange={setContent}
           modules={modules}

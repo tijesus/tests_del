@@ -90,8 +90,12 @@
 .post-meta {
   font-size: 14px;
   color: #666;
-  display: flex;
+  display: inline-block;
   justify-content: space-between;
+}
+.post-meta .post-timestamp {
+  margin-left: 65px;
+  margin-top: -12px;
 }
 
 .author-info {
@@ -127,6 +131,5 @@
 p {
   color: #666;
   font-size: 16px;
-  text-align: center;
   margin-top: 20px;
 }

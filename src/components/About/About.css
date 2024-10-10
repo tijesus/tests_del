@@ -89,7 +89,7 @@
   
   .feature-item {
     flex: 1;
-    background-color: #f9f9f9;
+    background-color: #9ccdfc;
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
@@ -99,7 +99,7 @@
   .feature-item h3 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #202020;
   }
   
   .feature-item p {
@@ -168,6 +168,7 @@
   .call-to-action-section p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+    color: #f0f0f0;
   }
   
   .cta-button {
